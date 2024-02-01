@@ -1,4 +1,7 @@
 import { promises as fs } from 'fs'
+import { Product } from './Product.js'
+
+const product = new Product
 
 export class ProductManager{
     constructor(path){
@@ -7,10 +10,12 @@ export class ProductManager{
 
     async addProduct(newProduct){
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-        if (newProduct.code && newProduct.id && newProduct.title && newProduct.description && newProduct.price && newProduct.thumbnail && newProduct.stock){
+        if (newProduct.code && newProduct.title && newProduct.description && newProduct.price && newProduct.thumbnail && newProduct.stock){
             const indice = products.findIndex(prod => prod.code === newProduct.code)
             if(indice === -1){
-                products.push(newProduct)
+                let productNew = await product.createProduct(newProduct)
+                console.log(JSON.parse(productNew))
+                products.push(productNew)
                 await fs.writeFile(this.path, JSON.stringify(products))
                 return 'Producto creado correctamente'
             }else{
@@ -23,7 +28,7 @@ export class ProductManager{
 
     async getProducts(){
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-        console.log(products)
+        return products
     }
 
     async getProductById(id){
@@ -31,9 +36,9 @@ export class ProductManager{
         const product = products.find(prod => prod.id === id)
 
         if(product){
-            console.log(product) 
+            return product 
         }else{
-            console.log('Producto no existe') 
+            return 'Producto no existe' 
         }
     }
 
@@ -49,10 +54,10 @@ export class ProductManager{
             products[indice].description = nuevoProducto.description
 
             await fs.writeFile(this.path, JSON.stringify(products))
-            console.log('Producto actualizado correctamente') 
+            return 'Producto actualizado correctamente' 
         }
         else{
-            console.log('Producto no existe') 
+            return'Producto no existe'
         }
     }   
     
