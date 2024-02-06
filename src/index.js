@@ -5,12 +5,6 @@ import express from 'express'
 const PORT = 8000
 const app = express()
 
-/* const producto1 = new Product("Arroz", "Muy Rico", 1200, 20, "A123")
-const producto2 = new Product("Lentejas", "Sanas", 1300, 20, "A124")
-const producto3 = new Product("Yerba Mate", "Amarga", 1500, 20, "Y123")
-const producto4 = new Product("Azucar", "Muy Rica", 1200, 20, "AE23")
- */
-
 const product1version2 = new Product("Arroz", "Barato", 100, 20, "A123")
 
 const productManager = new ProductManager('./src/data/products.json')
@@ -22,19 +16,18 @@ app.get('/', (req,res)=>{
 app.get('/products', async (req,res) => {
 
     try {
+
         const { limit } = req.query
 
-        const products = await productManager.getProducts()
+        let products = await productManager.getProducts()
         const queryLimit = parseInt(limit)
-    
-        if(queryLimit || queryLimit > 0){
-            
-            const productsLimit = products.slice(0, queryLimit)
-            res.status(200).send(productsLimit)
-        }else{
-            res.status(400).send("Error al consultar clientes, ingrese un valor valido en los queryes")
+
+        if(!isNaN(queryLimit)){
+            products = (products.slice(0, queryLimit))
         }
-        
+
+        res.status(200).send(products)
+
     } catch (error) {
         res.status(500).send(`Error interno del servidor al consultar clientes : ${ error }`)
     }
@@ -63,19 +56,20 @@ app.post('/products', async (req,res) => {
     console.log(req.body)
     try {
         const product = req.body
+        console.log(product,"llego")
         const message = await productManager.addProduct(product)
-        console.log(message)
+        console.log(message, "aca")
         if(message == 'Producto creado correctamente'){
             res.status(200).send(message)
         }else{
             res.status(400).send(message)
         }
     } catch (error) {
-        res.status(500).send(`Error al crear producto`)
+        res.status(500).send(`Error al crear producto : ${error}`)
     }
 })
 
-app.put('/products', async (req,res) => {
+app.put('/products/:pid', async (req,res) => {
     try {
         const idProducto = req.params.pid
         const product = req.body
@@ -91,7 +85,7 @@ app.put('/products', async (req,res) => {
     }
 })
 
-app.delete('/products', async (req,res) => {
+app.delete('/products/:pid', async (req,res) => {
     try {
         const idProducto = req.params.pid
         const message = await productManager.deleteProduct(idProducto)

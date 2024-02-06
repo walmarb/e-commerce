@@ -1,1 +1,29 @@
-[{"title":"Arroz","description":"Muy Rico","price":1200,"stock":20,"code":"A123","thumbnail":[],"id":"a5882433056659ba85e3"},{"title":"Camisa","description":"Camisa blanca","price":17000,"stock":1,"code":"A8888","thumbnail":[]},{},{},null]
+[
+    {
+        "title": "Frijoles",
+        "description": "Picantes",
+        "price": 17000,
+        "stock": 1,
+        "code": "A3030",
+        "thumbnail": [],
+        "id": "1d2ae2374bef83599753"
+    },
+    {
+        "title": "Bananas",
+        "description": "Brasileras",
+        "price": 17000,
+        "stock": 1,
+        "code": "A3035",
+        "thumbnail": [],
+        "id": "f5c0fd343400115a5ac6"
+    },
+    {
+        "title": "Naranjas",
+        "description": "Jugosas",
+        "price": 1000,
+        "stock": 10,
+        "code": "A3040",
+        "thumbnail": [],
+        "id": "8e28f68a7b01dacdfa9a"
+    }
+]

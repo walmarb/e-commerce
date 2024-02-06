@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs'
 import { Product } from './Product.js'
+import crypto from 'crypto'
 
 const product = new Product
 
@@ -13,9 +14,8 @@ export class ProductManager{
         if (newProduct.code && newProduct.title && newProduct.description && newProduct.price && newProduct.thumbnail && newProduct.stock){
             const indice = products.findIndex(prod => prod.code === newProduct.code)
             if(indice === -1){
-                let productNew = await product.createProduct(newProduct)
-                console.log(JSON.parse(productNew))
-                products.push(productNew)
+                const product = new Product(newProduct.title, newProduct.description, newProduct.price, newProduct.stock, newProduct.code, newProduct.thumbnail, crypto.randomBytes(10).toString('hex'))
+                products.push(product)
                 await fs.writeFile(this.path, JSON.stringify(products))
                 return 'Producto creado correctamente'
             }else{
@@ -67,10 +67,10 @@ export class ProductManager{
         if(indice != -1){
             const productsFiltrados = products.filter(product => product.id != id )
             await fs.writeFile(this.path, JSON.stringify(productsFiltrados))
-            console.log('Producto eliminado correctamente') 
+            return 'Producto eliminado correctamente'
         }
         else{
-            console.log('Producto no existe')
+            return 'Producto no existe'
         }
     } 
 }
