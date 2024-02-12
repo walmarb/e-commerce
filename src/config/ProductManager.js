@@ -9,10 +9,10 @@ export class ProductManager{
 
     async addProduct(newProduct){
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-        if (newProduct.code && newProduct.title && newProduct.description && newProduct.price && newProduct.thumbnail && newProduct.stock){
+        if (newProduct.code && newProduct.title && newProduct.description && newProduct.price && newProduct.thumbnail && newProduct.stock && newProduct.category){
             const indice = products.findIndex(prod => prod.code === newProduct.code)
             if(indice === -1){
-                const product = new Product(newProduct.title, newProduct.description, newProduct.price, newProduct.stock, newProduct.code, newProduct.thumbnail, crypto.randomBytes(10).toString('hex'))
+                const product = new Product(crypto.randomBytes(10).toString('hex'), newProduct.title, newProduct.description, newProduct.code, newProduct.price, true, newProduct.stock, newProduct.category, newProduct.thumbnail)
                 products.push(product)
                 await fs.writeFile(this.path, JSON.stringify(products))
                 return 'Producto creado correctamente'
@@ -44,12 +44,13 @@ export class ProductManager{
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
         const indice = products.findIndex(product => product.id === id)
         if(indice != -1){
+            products[indice].title = nuevoProducto.title            
+            products[indice].description = nuevoProducto.description   
+            products[indice].code = nuevoProducto.code         
+            products[indice].price = nuevoProducto.price                                  
             products[indice].stock = nuevoProducto.stock
-            products[indice].price = nuevoProducto.price
-            products[indice].title = nuevoProducto.title
+            products[indice].category = nuevoProducto.category            
             products[indice].thumbnail = nuevoProducto.thumbnail
-            products[indice].code = nuevoProducto.code
-            products[indice].description = nuevoProducto.description
 
             await fs.writeFile(this.path, JSON.stringify(products))
             return 'Producto actualizado correctamente' 

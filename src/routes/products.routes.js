@@ -4,8 +4,6 @@ import { ProductManager } from "../config/ProductManager.js"
 const productManager = new ProductManager('./src/data/products.json')
 const productsRouter = Router()
 
-
-
 productsRouter.get('/', async (req,res) => {
 
     try {
