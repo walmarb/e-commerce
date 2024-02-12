@@ -1,11 +1,8 @@
-import { Product } from "./config/Product.js";
 import { ProductManager } from "./config/ProductManager.js";
 import express from 'express'
 
-const PORT = 8000
+const PORT = 8080
 const app = express()
-
-const product1version2 = new Product("Arroz", "Barato", 100, 20, "A123")
 
 const productManager = new ProductManager('./src/data/products.json')
 
@@ -48,8 +45,6 @@ app.get('/products/:pid', async (req,res) =>{
     }
 
 })
-
-app.use(express.json())
 
 app.post('/products', async (req,res) => {
 
@@ -105,3 +100,4 @@ app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
 })
 
+app.use(express.json())
