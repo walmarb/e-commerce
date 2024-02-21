@@ -17,10 +17,18 @@ productsRouter.get('/', async (req,res) => {
             products = (products.slice(0, queryLimit))
         }
 
-        res.status(200).send(products)
+        res.status(200).render('templates/home',{
+            mostrarProductos: true,
+            productos: products,
+            css: 'home.css'
+        })    
+        //res.status(200).send(products)
 
     } catch (error) {
-        res.status(500).send(`Error interno del servidor al consultar clientes : ${ error }`)
+        res.status(500).render('templates/error',{
+            error: error,
+        })
+        //res.status(500).send(`Error interno del servidor al consultar clientes : ${ error }`)
     }
 })
 

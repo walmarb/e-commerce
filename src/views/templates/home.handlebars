@@ -1,1 +1,15 @@
-<h1>Hola Genio</h1>
+<h1>Productos</h1>
+
+{{#if mostrarProductos}}
+    {{#each productos}}
+        <div>
+            <p>titulo: {{this.title}}</p>
+            <p>Precio: {{this.price}}</p>
+            <p>Descripcion: {{this.description}}</p>
+            <p>Categoria: {{this.category}}</p>
+            <img src="{{this.img}}" alt="Imagen de {{this.title}}">
+        </div>
+    {{/each}}
+{{else}}
+    <p>No se pueden mostrar los productos</p>
+{{/if}}

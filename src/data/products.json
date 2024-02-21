@@ -1,1 +1,26 @@
-[{"id":"70306401564185cb7a1d","title":"Duraznos","description":"Jugosos","code":"A3000","price":1000,"status":true,"stock":1000,"category":"Frutas","thumbnail":[]},{"id":"cede3e14c7a2764132fc","title":"Aceitunas","description":"Verdes","code":"A3001","price":2000,"status":true,"stock":10,"category":"Frutas","thumbnail":[]}]
+[
+    {
+        "id": "70306401564185cb7a1d",
+        "title": "Duraznos",
+        "description": "Jugosos",
+        "code": "A3000",
+        "price": 1000,
+        "status": true,
+        "stock": 1000,
+        "category": "Frutas",
+        "thumbnail": [],
+        "img": "./img/1708481700323lata_duraznos.jpg"
+    },
+    {
+        "id": "cede3e14c7a2764132fc",
+        "title": "Aceitunas",
+        "description": "Verdes",
+        "code": "A3001",
+        "price": 2000,
+        "status": true,
+        "stock": 10,
+        "category": "Frutas",
+        "thumbnail": [],
+        "img": "./img/1708481680013lata_aceitunas.jpg"
+    }
+]
