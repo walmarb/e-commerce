@@ -1,7 +1,6 @@
 import { Router } from "express"
-import { ProductManager } from "../config/ProductManager.js"
+import productModel from "../models/product.js";
 
-const productManager = new ProductManager('./src/data/products.json')
 const productsRouter = Router()
 
 productsRouter.get('/', async (req,res) => {
@@ -10,7 +9,7 @@ productsRouter.get('/', async (req,res) => {
 
         const { limit } = req.query
 
-        let products = await productManager.getProducts()
+        let products = await productModel.find().lean()
         const queryLimit = parseInt(limit)
 
         if(!isNaN(queryLimit)){
@@ -36,7 +35,7 @@ productsRouter.get('/:pid', async (req,res) =>{
 
     try {
         const idProducto = req.params.pid
-        const prod = await productManager.getProductById(idProducto)
+        const prod = await productModel.findById(idProducto).lean()
         if(prod){
             res.status(200).send(prod)
         }else{
@@ -54,13 +53,8 @@ productsRouter.post('/', async (req,res) => {
     try {
         const product = req.body
         console.log(product,"llego")
-        const message = await productManager.addProduct(product)
-        console.log(message, "aca")
-        if(message == 'Producto creado correctamente'){
-            res.status(200).send(message)
-        }else{
-            res.status(400).send(message)
-        }
+        const message = await productModel.create(product)
+        res.status(201).send(message)
     } catch (error) {
         res.status(500).send(`Error al crear producto : ${error}`)
     }
@@ -70,13 +64,10 @@ productsRouter.put('/:pid', async (req,res) => {
     try {
         const idProducto = req.params.pid
         const product = req.body
-        const message = await productManager.updateProduct(idProducto, product)
+        const message = await productModel.findByIdAndUpdate(idProducto, product)
 
-        if(message == "Producto actualizado correctamente"){
-            res.status(200).send(message)
-        }else{
-            res.status(404).send(message)
-        }
+        res.status(200).send(message)
+
     } catch (error) {
         res.status(500).send(`Error al modificar producto : ${error}`)
     }
@@ -85,13 +76,10 @@ productsRouter.put('/:pid', async (req,res) => {
 productsRouter.delete('/:pid', async (req,res) => {
     try {
         const idProducto = req.params.pid
-        const message = await productManager.deleteProduct(idProducto)
+        const message = await productModel.findByIdAndDelete(idProducto)
 
-        if(message == "Producto eliminado correctamente"){
-            res.status(200).send(message)
-        }else{
-            res.status(404).send(message)
-        }
+        res.status(200).send(message)
+
     } catch (error) {
         res.status(500).send(`Error al eliminar producto : ${error}`)
     }
